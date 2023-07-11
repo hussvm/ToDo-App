@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--TO DO-->
+        <!--TODO-->
         <scene sceneID="8Np-dB-tev">
             <objects>
                 <tableViewController storyboardIdentifier="CategoryViewController" id="iu4-wW-IoB" customClass="CategoryViewController" customModule="ToDo_App" customModuleProvider="target" sceneMemberID="viewController">
@@ -30,7 +30,7 @@
                             <outlet property="delegate" destination="iu4-wW-IoB" id="GiB-ub-SYE"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="TO DO" id="aZc-w2-TWo">
+                    <navigationItem key="navigationItem" title="TODO" id="aZc-w2-TWo">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="moy-uA-Cd2">
                             <connections>
                                 <action selector="addButtonPressed:" destination="iu4-wW-IoB" id="bRt-AV-jec"/>
@@ -45,7 +45,7 @@
             </objects>
             <point key="canvasLocation" x="1542.7480916030534" y="-60.563380281690144"/>
         </scene>
-        <!--Todo Table View Controller-->
+        <!--ITEMS-->
         <scene sceneID="jYU-dG-cwJ">
             <objects>
                 <tableViewController id="DDH-Lj-rzo" customClass="TodoTableViewController" customModule="ToDo_App" customModuleProvider="target" sceneMemberID="viewController">
@@ -76,13 +76,16 @@
                             <outlet property="delegate" destination="DDH-Lj-rzo" id="MkI-QI-2L2"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="2Eq-5H-7ou">
+                    <navigationItem key="navigationItem" title="ITEMS" id="2Eq-5H-7ou">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="SN3-FT-YiK">
                             <connections>
                                 <action selector="addButtonPressed:" destination="DDH-Lj-rzo" id="JCL-Bm-WBa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="serachBar" destination="AT3-nk-QKQ" id="wtj-xL-f20"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q0V-V4-PdF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -93,8 +96,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="H7e-VX-eCP" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PVp-ao-N67">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="PVp-ao-N67">
+                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

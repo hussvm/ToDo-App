@@ -7,8 +7,11 @@
 
 import UIKit
 import CoreData
+import ChameleonFramework
 
 class TodoTableViewController: SwipeTableViewController {
+    
+    @IBOutlet weak var serachBar: UISearchBar!
     
     var itemArray = [Item]()
     
@@ -28,6 +31,23 @@ class TodoTableViewController: SwipeTableViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+        title = selectedCategory?.name
+        
+        if  let navBar = navigationController?.navigationBar {
+            
+            navBar.backgroundColor = UIColor(hexString: selectedCategory?.colour)
+            
+            navBar.tintColor = ContrastColorOf(backgroundColor: UIColor(hexString: selectedCategory?.colour), returnFlat: true)
+            
+            navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ContrastColorOf(backgroundColor: UIColor(hexString: selectedCategory?.colour), returnFlat: true)]
+            
+            serachBar.barTintColor = UIColor(hexString: selectedCategory?.colour)
+        }
+        
+    }
+    
     //MARK: - Tableview Datasource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -40,10 +60,13 @@ class TodoTableViewController: SwipeTableViewController {
         let item = itemArray[indexPath.row]
         cell.textLabel?.text = item.title
         
+        let colour = UIColor(hexString: selectedCategory?.colour).darken(byPercentage: CGFloat(indexPath.row) / CGFloat(itemArray.count))
+        cell.backgroundColor = colour
+        cell.textLabel?.textColor = ContrastColorOf(backgroundColor: colour!, returnFlat: true)
+        
         //Ternary operator ==>
         // value = condition ? valueIfTrue : valueIfFalse
         cell.accessoryType = item.done ? .checkmark : .none
-        
         return cell
     }
     
@@ -128,7 +151,6 @@ class TodoTableViewController: SwipeTableViewController {
         tableView.reloadData()
     }
 }
-
 
 //MARK: - Search bar methods
 
