@@ -7,16 +7,18 @@
 
 import UIKit
 import CoreData
+import SwipeCellKit
 
 class CategoryViewController: UITableViewController {
     
     var categories  = [Category]()
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadCategories()
+        tableView.rowHeight = 80.0
     }
     
     
@@ -28,10 +30,11 @@ class CategoryViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CatogeryCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CatogeryCell", for: indexPath) as! SwipeTableViewCell
         cell.textLabel?.text = categories[indexPath.row].name
-        return cell
         
+        cell.delegate = self
+        return cell
     }
     
     //MARK: - TableView Delegate Methods
@@ -100,6 +103,32 @@ class CategoryViewController: UITableViewController {
         }
         
         present(alert, animated: true, completion: nil)
+    }
+    
+}
+//MARK: - Swipe Cell Delegate Methods
+
+extension CategoryViewController: SwipeTableViewCellDelegate{
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeCellKit.SwipeActionsOrientation) -> [SwipeCellKit.SwipeAction]? {
+        
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            do {
+                self.context.delete(self.categories[indexPath.row])
+                self.categories.remove(at: indexPath.row)
+            }
+            
+        }
+        
+        deleteAction.image = UIImage(named: "Trash")
+        return [deleteAction]
+    }
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        
+        var options = SwipeTableOptions()
+        options.expansionStyle = .destructive
+        return options
     }
     
 }
