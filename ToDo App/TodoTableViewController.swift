@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class TodoTableViewController: UITableViewController {
+class TodoTableViewController: SwipeTableViewController {
     
     var itemArray = [Item]()
     
@@ -21,9 +21,11 @@ class TodoTableViewController: UITableViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         
+        super.viewDidLoad()
+        tableView.rowHeight = 80.0
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        
     }
     
     //MARK: - Tableview Datasource Methods
@@ -34,7 +36,7 @@ class TodoTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemsCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         let item = itemArray[indexPath.row]
         cell.textLabel?.text = item.title
         
@@ -49,14 +51,10 @@ class TodoTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
-        //        context.delete(itemArray[indexPath.row])
-        //        itemArray.remove(at: indexPath.row)
-        
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         saveItems()
-        
         tableView.deselectRow(at: indexPath, animated: true)
+        
     }
     
     //MARK: - Add New Items
@@ -90,8 +88,15 @@ class TodoTableViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    //MARK - Model Manupulation Methods
+    //MARK: - Delete Data From Swipe
     
+    override func updateModel(at indexPath: IndexPath) {
+        
+        context.delete(itemArray[indexPath.row])
+        itemArray.remove(at: indexPath.row)
+    }
+    
+    //MARK: -  Model Manupulation Methods
     func saveItems() {
         
         do {
@@ -123,6 +128,7 @@ class TodoTableViewController: UITableViewController {
         tableView.reloadData()
     }
 }
+
 
 //MARK: - Search bar methods
 
